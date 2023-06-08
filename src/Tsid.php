@@ -4,28 +4,31 @@ namespace Odan\Tsid;
 
 class Tsid
 {
+    const NORMALIZE_ERRMODE_SILENT = 0;
+	const NORMALIZE_ERRMODE_EXCEPTION = 1;
+
     public function __construct(private $number = 0) {
-	}
+    }
 
-	public function __toString() {
-		return static::encode($this->number);
-	}
+    public function __toString() {
+            return static::encode($this->number);
+    }
 
-	public function toInt() {
-		return $this->number;
-	}
+    public function toInt() {
+            return $this->number;
+    }
 
-	public function toString(): string {
-		return static::encode($this->number);
-	}
+    public function toString(): string {
+            return static::encode($this->number);
+    }
 
-	public static function fromInt($number): TSID {
-		return new Tsid($number);
-	}
+    public static function fromInt($number): TSID {
+            return new Tsid($number);
+    }
 
-	public static function fromString($string): TSID {
-		return new Tsid(static::decode($string));
-	}
+    public static function fromString($string): TSID {
+            return new Tsid(static::decode($string));
+    }
 
     public function equals(Tsid $other): bool
     {
