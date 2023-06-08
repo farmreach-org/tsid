@@ -6,7 +6,7 @@ use DateTimeImmutable;
 use DateTimeZone;
 use Exception;
 
-final class TsidFactory implements TsidFactoryInterface
+class TsidFactory
 {
     public const NODE_BITS_256 = 8;
 
@@ -61,9 +61,8 @@ final class TsidFactory implements TsidFactoryInterface
 
         $this->counter = $this->getRandomCounter();
     }
-
-    public function generate(): Tsid
-    {
+    
+    public function generateAsNumber(): int {
         // Time component (42 bits)
         // a number of milliseconds since 1970-01-01 (Unix epoch).
         $time = $this->getTime() << self::RANDOM_BITS;
@@ -73,7 +72,12 @@ final class TsidFactory implements TsidFactoryInterface
         $node = $this->node << $this->counterBits;
         $counter = $this->counter & $this->counterMask;
 
-        return new Tsid($time | $node | $counter);
+        return $time | $node | $counter;
+    }
+
+    public function generate(): Tsid
+    {
+        return new Tsid($this->generateAsNumber());
     }
 
     private function getTime(): int
